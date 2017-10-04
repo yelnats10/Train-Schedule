@@ -10,6 +10,25 @@ $(document).ready(function() {
     };
     firebase.initializeApp(config);
 
+
+function login() {
+
+var provider = new firebase.auth.GithubAuthProvider();
+firebase.auth().signInWithPopup(provider).then(function(result) {
+  // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+  var token = result.credential.accessToken;
+  // The signed-in user info.
+  var user = result.user;
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+});
+}
+
+$("#log").on("click", login);
+
     var database = firebase.database();
 
     var trainName = "";
@@ -43,25 +62,17 @@ $(document).ready(function() {
     	var timeConverted = moment(childSnapshot.val().firstTrainTime, "hh:mm a");
         var currentTime = moment();
 
-        console.log ("Current Time: " + moment(currentTime).format("hh:mm a"));
-
         var difTime = moment().diff(moment(timeConverted), "minutes")
 
-        console.log("Difference In Time " + difTime);
 
         var remainder = difTime % childSnapshot.val().frequency;
 
-        console.log(remainder);
 
         var minAway = childSnapshot.val().frequency - remainder;
 
-        console.log(minAway);
 
         var nextArrival = moment().add(minAway, "minutes");
 
-        console.log(moment(nextArrival).format("hh:mm a"));
-
-    	//console.log(moment(childSnapshot.val().firstTrainTime, "hh:mm a").diff(moment().format("hh:mm a")));
 
 
         $("#train-info").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" + childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequency + "</td><td>" + moment(nextArrival).format("hh:mm a") + "</td><td>" + minAway + "</td></tr>");
