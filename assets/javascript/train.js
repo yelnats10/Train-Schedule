@@ -11,8 +11,8 @@ $(document).ready(function() {
     firebase.initializeApp(config);
 
     var provider = new firebase.auth.GithubAuthProvider();
-    console.log(provider);
-    firebase.auth().signInWithRedirect(provider);
+    // console.log(provider);
+    firebase.auth().signInWithPopup(provider);
 
 //     firebase.auth().getRedirectResult().then(function(result) {
 //         if (result.credential) {
