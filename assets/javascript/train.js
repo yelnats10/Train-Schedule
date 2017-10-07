@@ -12,9 +12,9 @@ $(document).ready(function() {
 
     var provider = new firebase.auth.GithubAuthProvider();
     // console.log(provider);
-    firebase.auth().signInWithPopup(provider);
+    firebase.auth().signInWithRedirect(provider);
 
-    firebase.auth().getPopupResult().then(function(result) {
+    firebase.auth().getRedirectResult().then(function(result) {
         if (result.credential) {
     // This gives you a GitHub Access Token. You can use it to access the GitHub API.
     var token = result.credential.accessToken;
